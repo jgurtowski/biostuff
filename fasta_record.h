@@ -33,6 +33,11 @@
 ///Example 1: TBD
 /// - - - - - - -
 
+#ifndef INCLUDED_IOSFWD
+#define INCLUDED_IOSFWD
+#include <iosfwd>
+#endif
+
 #ifndef INCLUDED_STRING
 #define INCLUDED_STRING
 #include <string>
@@ -50,6 +55,9 @@ class Record {
     // DATA
     std::string d_body;  // the body of the sequence
     std::string d_name;  // the name of the record
+
+    // FRIENDS
+    friend std::istream& operator>>(std::istream&, Record&);
 
   public:
     // CREATORS
@@ -87,6 +95,8 @@ class Record {
         // Swap the contents of the body attribute of this object with the
         // contents of the specified 'value'.
 
+                                  // Aspects
+
     // ACCESSORS
     const std::string& body() const;
         // Return a reference providing non-modifiable access to the 'body'
@@ -100,7 +110,7 @@ class Record {
 
     std::ostream& print(std::ostream& stream,
                         int           level = 0,
-                        int           spacesPerLevel = 4);
+                        int           spacesPerLevel = 4) const;
 };
 
 // FREE OPERATORS
@@ -115,6 +125,11 @@ bool operator!=(const Record& lhs, const Record& rhs);
     // same value and 'false' otherwise.  Two 'Record' objects do not have the
     // same value if any the corresponding values of their 'body' and 'name'
     // attributes do not have the same value.
+
+std::istream& operator>>(std::istream& stream, Record& rhs);
+    // Assign to the specified 'rhs' object the value extracted from the
+    // specified 'stream', and return a reference providing modifiable access
+    // to 'stream'.
 
 std::ostream& operator<<(std::ostream& stream, const Record& rhs);
     // Output the value of the specified 'rhs' object to the specified
@@ -207,7 +222,6 @@ bool operator!=(const Record& lhs, const Record& rhs)
     return lhs.name() != rhs.name()
         || lhs.body() != rhs.body();
 }
-
 
 }  // close package namespace
 
