@@ -1,16 +1,16 @@
 // fasta.m.cpp                                                        -*-C++-*-
 
-#include <fstream>
+#include <fasta_record.h>
 
-#include <fasta_parser.h>
+#include <iostream>
+#include <iterator>
+#include <vector>
 
 int main(int argc, char **argv)
 {
-    std::fstream fh("test.fa",in);
+    std::istream_iterator<fasta::Record> b(std::cin), e;
+    std::vector<fasta::Record> records(b, e);
 
-    fasta::Parser parser(fh);
-    for (fasta::Parser::const_iterator it = parser.begin();
-            parser.end() != it; ++it) {
-        std::cout << *it << std::endl;
-    }
+    std::ostream_iterator<fasta::Record> out(std::cout, "\n");
+    std::copy(records.begin(), records.end(), out);
 }
