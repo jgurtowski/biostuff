@@ -25,19 +25,24 @@ std::ostream& Record::print(std::ostream& stream,
 // FREE OPERATORS
 std::istream& operator>>(std::istream& stream, Record& rhs)
 {
-    if (stream.good()) {
-        std::string line;
-        getline(stream, line);
+    std::string line;
+    if (getline(stream, line)) {
         if ('>' == line[0]) {
             rhs.d_name.assign(line.begin() + 1, line.end());
 
             std::string body;
-            while (stream && '>' != stream.peek()) {
-                getline(stream, line);
+            while (getline(stream, line) && '>' != stream.peek()) {
                 body += line;
             }
             rhs.d_body.swap(body);
-            stream.clear();  // handle hitting EOF, 'stream' is still good here
+
+            // We read a complete record; even if we hit EOF, mark 'stream'
+            // good.
+
+            stream.clear();
+        }
+        else {
+            stream.clear(std::ios_base::failbit);
         }
     }
     return stream;
