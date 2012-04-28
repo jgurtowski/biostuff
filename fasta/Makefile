@@ -2,8 +2,8 @@
 .PHONY: clean
 
 fasta: fasta.m.cpp fasta_record.h fasta_record.cpp
-	g++ -c -I. *.cpp
-	g++ -o fasta *.o
+	g++ -c -I. fasta*.cpp
+	g++ -o fasta.tsk fasta*.o
 
 clean:
-	rm fasta *.o
+	rm *.tsk *.o
