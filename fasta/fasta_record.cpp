@@ -4,6 +4,7 @@
 
 #include <cassert>
 #include <iostream>
+#include <iomanip>
 
 namespace fasta {
 
@@ -19,6 +20,21 @@ std::ostream& Record::print(std::ostream& stream,
                             int           level,
                             int           spacesPerLevel) const
 {
+    if (stream.good()) {
+        if (spacesPerLevel < 0) {
+            stream << *this;
+        }
+        else {
+            int width = level * spacesPerLevel;
+            stream << std::setw(width) << ' ' << "[\n";
+            stream << std::setw(width + spacesPerLevel) << ' '
+                << "name = " << d_name << ",\n";
+            stream << std::setw(width + spacesPerLevel) << ' '
+                << "sequence = " << d_sequence << "\n";
+            stream << std::setw(width) << ' ' << "]\n";
+        }
+    }
+
     return stream;
 }
 
