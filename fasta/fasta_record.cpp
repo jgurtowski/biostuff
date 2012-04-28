@@ -30,11 +30,11 @@ std::istream& operator>>(std::istream& stream, Record& rhs)
         if ('>' == line[0]) {
             rhs.d_name.assign(line.begin() + 1, line.end());
 
-            std::string body;
+            std::string sequence;
             while (getline(stream, line) && '>' != stream.peek()) {
-                body += line;
+                sequence += line;
             }
-            rhs.d_body.swap(body);
+            rhs.d_sequence.swap(sequence);
 
             // We read a complete record; even if we hit EOF, mark 'stream'
             // good.
@@ -50,7 +50,7 @@ std::istream& operator>>(std::istream& stream, Record& rhs)
 
 std::ostream& operator<<(std::ostream& stream, const Record& rhs)
 {
-    stream << "[ " << rhs.name() << ", " << rhs.body() << " ]";
+    stream << "[ " << rhs.name() << ", " << rhs.sequence() << " ]";
     return stream;
 }
 

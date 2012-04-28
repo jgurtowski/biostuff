@@ -17,17 +17,15 @@
 //
 ///Attributes
 ///----------
-//
 //..
-//  Name    Type         Default Value
-//  ------  -----------  -------------
-//  body    std::string  ""
-//  name    std::string  ""
+//  Name      Type         Default Value
+//  ------    -----------  -------------
+//  name      std::string  ""
+//  sequence  std::string  ""
 //..
 //
 ///Usage
 ///-----
-//
 // This section illustrates intended usage of this component.
 //
 ///Example 1: TBD
@@ -53,8 +51,8 @@ class Record {
     // This attribute class...
 
     // DATA
-    std::string d_body;  // the body of the sequence
-    std::string d_name;  // the name of the record
+    std::string d_name;      // name of the record
+    std::string d_sequence;  // sequence of 'A', 'C', 'G', and 'T' characters
 
     // FRIENDS
     friend std::istream& operator>>(std::istream&, Record&);
@@ -64,13 +62,13 @@ class Record {
     explicit Record();
         // Create a new 'Record' object having the (default) attribute values:
         //..
-        //  body() == "";
-        //  name() == "";
+        //  name()     == "";
+        //  sequence() == "";
         //..
 
-    Record(const std::string& body, const std::string& name);
-        // Create a new 'Record' object having the specified 'body' and 'name'
-        // attribute values.
+    Record(const std::string& name, const std::string& sequence);
+        // Create a new 'Record' object having the specified 'name' and
+        // 'sequence' attribute values.
 
     Record(const Record& original);
         // Create a new 'Record' object having the same value as the specified
@@ -85,25 +83,26 @@ class Record {
         // object, and return a reference providing modifiable access to this
         // object.
 
-    void setBody(const std::string& value);
-        // Set the 'body' attribute of this object to the specified 'value'.
-
     void setName(const std::string& value);
         // Set the 'name' attribute of this object to the specified 'value'.
 
-    void swapBody(std::string *value);
-        // Swap the contents of the body attribute of this object with the
+    void setSequence(const std::string& value);
+        // Set the 'sequence' attribute of this object to the specified
+        // 'value'.
+
+    void swapSequence(std::string *value);
+        // Swap the contents of the sequence attribute of this object with the
         // contents of the specified 'value'.
 
                                   // Aspects
 
     // ACCESSORS
-    const std::string& body() const;
-        // Return a reference providing non-modifiable access to the 'body'
-        // attribute of this object.
-
     const std::string& name() const;
         // Return a reference providing non-modifiable access to the 'name'
+        // attribute of this object.
+
+    const std::string& sequence() const;
+        // Return a reference providing non-modifiable access to the 'sequence'
         // attribute of this object.
 
                                   // Aspects
@@ -117,13 +116,13 @@ class Record {
 bool operator==(const Record& lhs, const Record& rhs);
     // Return 'true' if the specified 'lhs' and 'rhs' objects have the same
     // value and 'false' otherwise.  Two 'Record' objects have the same value
-    // if the corresponding values of their 'body' and 'name' attributes have
+    // if the corresponding values of their 'sequence' and 'name' attributes have
     // the same value.
 
 bool operator!=(const Record& lhs, const Record& rhs);
     // Return 'true' if the specified 'lhs' and 'rhs' objects do not have the
     // same value and 'false' otherwise.  Two 'Record' objects do not have the
-    // same value if any the corresponding values of their 'body' and 'name'
+    // same value if any the corresponding values of their 'sequence' and 'name'
     // attributes do not have the same value.
 
 std::istream& operator>>(std::istream& stream, Record& rhs);
@@ -147,22 +146,22 @@ std::ostream& operator<<(std::ostream& stream, const Record& rhs);
 // CREATORS
 inline
 Record::Record()
-: d_body()
-, d_name()
+: d_name()
+, d_sequence()
 {
 }
 
 inline
-Record::Record(const std::string& body, const std::string& name)
-: d_body(body)
-, d_name(name)
+Record::Record(const std::string& name, const std::string& sequence)
+: d_name(name)
+, d_sequence(sequence)
 {
 }
 
 inline
 Record::Record(const Record& original)
-: d_body(original.d_body)
-, d_name(original.d_name)
+: d_name(original.d_name)
+, d_sequence(original.d_sequence)
 {
 }
 
@@ -170,16 +169,10 @@ Record::Record(const Record& original)
 inline
 Record& Record::operator=(const Record& rhs)
 {
-    d_body = rhs.d_body;
-    d_name = rhs.d_name;
+    d_name     = rhs.d_name;
+    d_sequence = rhs.d_sequence;
 
     return *this;
-}
-
-inline
-void Record::setBody(const std::string& value)
-{
-    d_body.assign(value.begin(), value.end());
 }
 
 inline
@@ -189,22 +182,28 @@ void Record::setName(const std::string& value)
 }
 
 inline
-void Record::swapBody(std::string *value)
+void Record::setSequence(const std::string& value)
 {
-    d_body.swap(*value);
+    d_sequence.assign(value.begin(), value.end());
+}
+
+inline
+void Record::swapSequence(std::string *value)
+{
+    d_sequence.swap(*value);
 }
 
 // ACCESSORS
 inline
-const std::string& Record::body() const
-{
-    return d_body;
-}
-
-inline
 const std::string& Record::name() const
 {
     return d_name;
+}
+
+inline
+const std::string& Record::sequence() const
+{
+    return d_sequence;
 }
 
 
@@ -212,15 +211,15 @@ const std::string& Record::name() const
 inline
 bool operator==(const Record& lhs, const Record& rhs)
 {
-    return lhs.name() == rhs.name()
-        && lhs.body() == rhs.body();
+    return lhs.name()     == rhs.name()
+        && lhs.sequence() == rhs.sequence();
 }
 
 inline
 bool operator!=(const Record& lhs, const Record& rhs)
 {
-    return lhs.name() != rhs.name()
-        || lhs.body() != rhs.body();
+    return lhs.name()     != rhs.name()
+        || lhs.sequence() != rhs.sequence();
 }
 
 }  // close package namespace
