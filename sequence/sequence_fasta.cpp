@@ -1,22 +1,22 @@
-// fasta_record.cpp                                                   -*-C++-*-
+//sequence_fasta.cpp
 
-#include <fasta_record.h>
+#include <sequence_fasta.h>
 
 #include <cassert>
 #include <iostream>
 #include <iomanip>
 
-namespace fasta {
+namespace sequence {
 
                                 // ------------
-                                // class Record
+                                // class Fasta
                                 // ------------
 
 // ACCESSORS
 
                                   // Aspects
 
-std::ostream& Record::print(std::ostream& stream,
+std::ostream& Fasta::print(std::ostream& stream,
                             int           level,
                             int           spacesPerLevel) const
 {
@@ -39,7 +39,7 @@ std::ostream& Record::print(std::ostream& stream,
 }
 
 // FREE OPERATORS
-std::istream& operator>>(std::istream& stream, Record& rhs)
+std::istream& operator>>(std::istream& stream, Fasta& rhs)
 {
     std::string line;
     if (getline(stream, line)) {
@@ -47,8 +47,10 @@ std::istream& operator>>(std::istream& stream, Record& rhs)
             rhs.d_name.assign(line.begin() + 1, line.end());
 
             std::string sequence;
-            while (getline(stream, line) && '>' != stream.peek()) {
-                sequence += line;
+            while (getline(stream, line)){
+              sequence += line;
+              if('>' == stream.peek())
+                break;
             }
             rhs.d_sequence.swap(sequence);
 
@@ -64,7 +66,7 @@ std::istream& operator>>(std::istream& stream, Record& rhs)
     return stream;
 }
 
-std::ostream& operator<<(std::ostream& stream, const Record& rhs)
+std::ostream& operator<<(std::ostream& stream, const Fasta& rhs)
 {
     stream << "[ " << rhs.name() << ", " << rhs.sequence() << " ]";
     return stream;

@@ -1,21 +1,21 @@
-// fasta_record.cpp                                                   -*-C++-*-
+// sequence_fastq.cpp
 
-#include <fastq_record.h>
+#include <sequence_fastq.h>
 
 #include <cassert>
 #include <iostream>
 
-namespace fastq {
+namespace sequence {
 
                                 // ------------
-                                // class Record
+                                // class Fastq
                                 // ------------
 
 // ACCESSORS
 
                                   // Aspects
 
-std::ostream& Record::print(std::ostream& stream,
+std::ostream& Fastq::print(std::ostream& stream,
                             int           level,
                             int           spacesPerLevel) const
 {
@@ -23,7 +23,7 @@ std::ostream& Record::print(std::ostream& stream,
 }
 
 // FREE OPERATORS
-std::istream& operator>>(std::istream& stream, Record& rhs)
+std::istream& operator>>(std::istream& stream, Fastq& rhs)
 {
     if (stream.good()) {
 
@@ -58,7 +58,7 @@ std::istream& operator>>(std::istream& stream, Record& rhs)
     return stream;
 }
 
-std::ostream& operator<<(std::ostream& stream, const Record& rhs)
+std::ostream& operator<<(std::ostream& stream, const Fastq& rhs)
 {
     stream << "[ "
            << rhs.name() << ", "

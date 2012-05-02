@@ -1,19 +1,19 @@
-// fastq_record.h                                                     -*-C++-*-
+// sequence_fastq.h
 
-#ifndef INCLUDED_FASTQ_RECORD
-#define INCLUDED_FASTQ_RECORD
+#ifndef INCLUDED_SEQUENCE_FASTQ
+#define INCLUDED_SEQUENCE_FASTQ
 
-//@PURPOSE: Provide an attribute class characterizing a Fasta record.
+//@PURPOSE: Provide an attribute class characterizing a Fastq record.
 //
 //@CLASSES:
-//  record: attributes characterizing a Fasta record
+//  Fastq: attributes characterizing a Fastq record
 //
 //@AUTHOR: Tim Douglas (tdouglas)
 //
 //@SEE_ALSO:
 //
 //@DESCRIPTION: This component provides a (value-semantic) attribute class,
-// 'Record', which characterizes a Fasta record.
+// 'Fastq', which characterizes a Fastq record.
 //
 ///Attributes
 ///----------
@@ -43,13 +43,15 @@
 #include <string>
 #endif
 
-namespace fastq {
+#include <sequence_generic.h>
+
+namespace sequence{
 
                                 // ============
-                                // class Record
+                                // class Fastq
                                 // ============
 
-class Record {
+  class Fastq : public Generic {
     // This attribute class...
 
     // DATA
@@ -59,33 +61,33 @@ class Record {
     std::string d_sequence;     // genetic sequence
 
     // FRIENDS
-    friend std::istream& operator>>(std::istream&, Record&);
+    friend std::istream& operator>>(std::istream&, Fastq&);
 
   public:
     // CREATORS
-    explicit Record();
-        // Create a new 'Record' object having the (default) attribute values:
+    explicit Fastq();
+        // Create a new 'Fastq' object having the (default) attribute values:
         //..
         //  body() == "";
         //  name() == "";
         //..
 
-    Record(const std::string& description,
+    Fastq(const std::string& description,
            const std::string& name,
            const std::string& quality,
            const std::string& sequence);
-        // Create a new 'Record' object having the specified 'description',
+        // Create a new 'Fastq' object having the specified 'description',
         // 'name', 'quality', and 'sequence' attribute values.
 
-    Record(const Record& original);
-        // Create a new 'Record' object having the same value as the specified
+    Fastq(const Fastq& original);
+        // Create a new 'Fastq' object having the same value as the specified
         // 'original' object.
 
-    //! ~Record() = default;
+    //! ~Fastq() = default;
         // Destroy this object.
 
     // MANIPULATORS
-    Record& operator=(const Record& rhs);
+    Fastq& operator=(const Fastq& rhs);
         // Set the value of this object to the value of the specified 'rhs'
         // object, and return a reference providing modifiable access to this
         // object.
@@ -135,24 +137,24 @@ class Record {
 };
 
 // FREE OPERATORS
-bool operator==(const Record& lhs, const Record& rhs);
+bool operator==(const Fastq& lhs, const Fastq& rhs);
     // Return 'true' if the specified 'lhs' and 'rhs' objects have the same
-    // value and 'false' otherwise.  Two 'Record' objects have the same value
+    // value and 'false' otherwise.  Two 'Fastq' objects have the same value
     // if the corresponding values of their 'body' and 'name' attributes have
     // the same value.
 
-bool operator!=(const Record& lhs, const Record& rhs);
+bool operator!=(const Fastq& lhs, const Fastq& rhs);
     // Return 'true' if the specified 'lhs' and 'rhs' objects do not have the
-    // same value and 'false' otherwise.  Two 'Record' objects do not have the
+    // same value and 'false' otherwise.  Two 'Fastq' objects do not have the
     // same value if any the corresponding values of their 'body' and 'name'
     // attributes do not have the same value.
 
-std::istream& operator>>(std::istream& stream, Record& rhs);
+std::istream& operator>>(std::istream& stream, Fastq& rhs);
     // Assign to the specified 'rhs' object the value extracted from the
     // specified 'stream', and return a reference providing modifiable access
     // to 'stream'.
 
-std::ostream& operator<<(std::ostream& stream, const Record& rhs);
+std::ostream& operator<<(std::ostream& stream, const Fastq& rhs);
     // Output the value of the specified 'rhs' object to the specified
     // 'stream', and return a reference providing modifiable access to
     // 'stream'.
@@ -162,12 +164,12 @@ std::ostream& operator<<(std::ostream& stream, const Record& rhs);
 // ============================================================================
 
                                 // ------------
-                                // class Record
+                                // class Fastq
                                 // ------------
 
 // CREATORS
 inline
-Record::Record()
+Fastq::Fastq()
 : d_description()
 , d_name()
 , d_quality()
@@ -176,7 +178,7 @@ Record::Record()
 }
 
 inline
-Record::Record(const std::string& description,
+Fastq::Fastq(const std::string& description,
                const std::string& name,
                const std::string& quality,
                const std::string& sequence)
@@ -188,7 +190,7 @@ Record::Record(const std::string& description,
 }
 
 inline
-Record::Record(const Record& original)
+Fastq::Fastq(const Fastq& original)
 : d_description(original.d_description)
 , d_name(original.d_name)
 , d_quality(original.d_quality)
@@ -198,7 +200,7 @@ Record::Record(const Record& original)
 
 // MANIPULATORS
 inline
-Record& Record::operator=(const Record& rhs)
+Fastq& Fastq::operator=(const Fastq& rhs)
 {
     d_description = rhs.d_description;
     d_name        = rhs.d_name;
@@ -209,50 +211,50 @@ Record& Record::operator=(const Record& rhs)
 }
 
 inline
-void Record::setDescription(const std::string& value)
+void Fastq::setDescription(const std::string& value)
 {
     d_description.assign(value.begin(), value.end());
 }
 
 inline
-void Record::setName(const std::string& value)
+void Fastq::setName(const std::string& value)
 {
     d_name.assign(value.begin(), value.end());
 }
 
 inline
-void Record::setQuality(const std::string& value)
+void Fastq::setQuality(const std::string& value)
 {
     d_quality.assign(value.begin(), value.end());
 }
 
 inline
-void Record::setSequence(const std::string& value)
+void Fastq::setSequence(const std::string& value)
 {
     d_sequence.assign(value.begin(), value.end());
 }
 
 // ACCESSORS
 inline
-const std::string& Record::description() const
+const std::string& Fastq::description() const
 {
     return d_description;
 }
 
 inline
-const std::string& Record::name() const
+const std::string& Fastq::name() const
 {
     return d_name;
 }
 
 inline
-const std::string& Record::quality() const
+const std::string& Fastq::quality() const
 {
     return d_quality;
 }
 
 inline
-const std::string& Record::sequence() const
+const std::string& Fastq::sequence() const
 {
     return d_sequence;
 }
@@ -260,7 +262,7 @@ const std::string& Record::sequence() const
 
 // FREE OPERATORS
 inline
-bool operator==(const Record& lhs, const Record& rhs)
+bool operator==(const Fastq& lhs, const Fastq& rhs)
 {
     return lhs.name()        == rhs.name()
         && lhs.description() == rhs.description()
@@ -269,7 +271,7 @@ bool operator==(const Record& lhs, const Record& rhs)
 }
 
 inline
-bool operator!=(const Record& lhs, const Record& rhs)
+bool operator!=(const Fastq& lhs, const Fastq& rhs)
 {
     return lhs.name()        != rhs.name()
         || lhs.description() != rhs.description()

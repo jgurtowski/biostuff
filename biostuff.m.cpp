@@ -1,9 +1,18 @@
 #include <iostream>
+#include <iterator>
 
-#include <fasta_record.h>
+#include <sequence_fasta.h>
+#include <sequence_generic.h>
+#include <bwt.h>
 
 int main(void){
+  
+  std::istream_iterator<sequence::Fasta> b(std::cin), e;
 
-  std::cout << "HEllo" << std::endl;
-
+  bwt::BWT trans;
+    
+  for(;b!=e;++b){
+    //uppercase
+    bwt::build(*b, &trans);
+  }
 }

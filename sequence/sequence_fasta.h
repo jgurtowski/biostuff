@@ -1,7 +1,7 @@
-// fasta_record.h                                                     -*-C++-*-
+// sequence_fasta.h
 
-#ifndef INCLUDED_FASTA_RECORD
-#define INCLUDED_FASTA_RECORD
+#ifndef INCLUDED_SEQUENCE_FASTA
+#define INCLUDED_SEQUENCE_FASTA
 
 //@PURPOSE: Provide an attribute class characterizing a Fasta record.
 //
@@ -41,13 +41,14 @@
 #include <string>
 #endif
 
-namespace fasta {
+#include <sequence_generic.h>
+
+namespace sequence {
 
                                 // ============
-                                // class Record
+                                // class Fasta
                                 // ============
-
-class Record {
+  class Fasta : public Generic {
     // This attribute class...
 
     // DATA
@@ -55,30 +56,30 @@ class Record {
     std::string d_sequence;  // sequence of 'A', 'C', 'G', and 'T' characters
 
     // FRIENDS
-    friend std::istream& operator>>(std::istream&, Record&);
+    friend std::istream& operator>>(std::istream&, Fasta&);
 
   public:
     // CREATORS
-    explicit Record();
-        // Create a new 'Record' object having the (default) attribute values:
+    explicit Fasta();
+        // Create a new 'Fasta' object having the (default) attribute values:
         //..
         //  name()     == "";
         //  sequence() == "";
         //..
 
-    Record(const std::string& name, const std::string& sequence);
-        // Create a new 'Record' object having the specified 'name' and
+    Fasta(const std::string& name, const std::string& sequence);
+        // Create a new 'Fasta' object having the specified 'name' and
         // 'sequence' attribute values.
 
-    Record(const Record& original);
-        // Create a new 'Record' object having the same value as the specified
+    Fasta(const Fasta& original);
+        // Create a new 'Fasta' object having the same value as the specified
         // 'original' object.
 
-    //! ~Record() = default;
+    //! ~Fasta() = default;
         // Destroy this object.
 
     // MANIPULATORS
-    Record& operator=(const Record& rhs);
+    Fasta& operator=(const Fasta& rhs);
         // Set the value of this object to the value of the specified 'rhs'
         // object, and return a reference providing modifiable access to this
         // object.
@@ -113,24 +114,24 @@ class Record {
 };
 
 // FREE OPERATORS
-bool operator==(const Record& lhs, const Record& rhs);
+bool operator==(const Fasta& lhs, const Fasta& rhs);
     // Return 'true' if the specified 'lhs' and 'rhs' objects have the same
-    // value and 'false' otherwise.  Two 'Record' objects have the same value
+    // value and 'false' otherwise.  Two 'Fasta' objects have the same value
     // if the corresponding values of their 'sequence' and 'name' attributes have
     // the same value.
 
-bool operator!=(const Record& lhs, const Record& rhs);
+bool operator!=(const Fasta& lhs, const Fasta& rhs);
     // Return 'true' if the specified 'lhs' and 'rhs' objects do not have the
-    // same value and 'false' otherwise.  Two 'Record' objects do not have the
+    // same value and 'false' otherwise.  Two 'Fasta' objects do not have the
     // same value if any the corresponding values of their 'sequence' and 'name'
     // attributes do not have the same value.
 
-std::istream& operator>>(std::istream& stream, Record& rhs);
+std::istream& operator>>(std::istream& stream, Fasta& rhs);
     // Assign to the specified 'rhs' object the value extracted from the
     // specified 'stream', and return a reference providing modifiable access
     // to 'stream'.
 
-std::ostream& operator<<(std::ostream& stream, const Record& rhs);
+std::ostream& operator<<(std::ostream& stream, const Fasta& rhs);
     // Output the value of the specified 'rhs' object to the specified
     // 'stream', and return a reference providing modifiable access to
     // 'stream'.
@@ -140,26 +141,26 @@ std::ostream& operator<<(std::ostream& stream, const Record& rhs);
 // ============================================================================
 
                                 // ------------
-                                // class Record
+                                // class Fasta
                                 // ------------
 
 // CREATORS
 inline
-Record::Record()
+Fasta::Fasta()
 : d_name()
 , d_sequence()
 {
 }
 
 inline
-Record::Record(const std::string& name, const std::string& sequence)
+Fasta::Fasta(const std::string& name, const std::string& sequence)
 : d_name(name)
 , d_sequence(sequence)
 {
 }
 
 inline
-Record::Record(const Record& original)
+Fasta::Fasta(const Fasta& original)
 : d_name(original.d_name)
 , d_sequence(original.d_sequence)
 {
@@ -167,7 +168,7 @@ Record::Record(const Record& original)
 
 // MANIPULATORS
 inline
-Record& Record::operator=(const Record& rhs)
+Fasta& Fasta::operator=(const Fasta& rhs)
 {
     d_name     = rhs.d_name;
     d_sequence = rhs.d_sequence;
@@ -176,32 +177,32 @@ Record& Record::operator=(const Record& rhs)
 }
 
 inline
-void Record::setName(const std::string& value)
+void Fasta::setName(const std::string& value)
 {
     d_name.assign(value.begin(), value.end());
 }
 
 inline
-void Record::setSequence(const std::string& value)
+void Fasta::setSequence(const std::string& value)
 {
     d_sequence.assign(value.begin(), value.end());
 }
 
 inline
-void Record::swapSequence(std::string *value)
+void Fasta::swapSequence(std::string *value)
 {
     d_sequence.swap(*value);
 }
 
 // ACCESSORS
 inline
-const std::string& Record::name() const
+const std::string& Fasta::name() const
 {
     return d_name;
 }
 
 inline
-const std::string& Record::sequence() const
+const std::string& Fasta::sequence() const
 {
     return d_sequence;
 }
@@ -209,14 +210,14 @@ const std::string& Record::sequence() const
 
 // FREE OPERATORS
 inline
-bool operator==(const Record& lhs, const Record& rhs)
+bool operator==(const Fasta& lhs, const Fasta& rhs)
 {
     return lhs.name()     == rhs.name()
         && lhs.sequence() == rhs.sequence();
 }
 
 inline
-bool operator!=(const Record& lhs, const Record& rhs)
+bool operator!=(const Fasta& lhs, const Fasta& rhs)
 {
     return lhs.name()     != rhs.name()
         || lhs.sequence() != rhs.sequence();
